@@ -1,27 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Listas</title>
 </head>
+
 <body>
-    <form name="formulario" method="post" onsubmit="return ">
+    <form name="formulario" method="post" onsubmit="return validar(this)">
         <h1>Listas desplegables dependientes</h1>
         <p>
             <label for="provincias">Provincias</label>
+            <select id="provincias" name="provincias"></select>
         </p>
         <p>
             <label for="municipios">Municipios</label>
+            <select id="municipios" name="municipios"></select>
         </p>
         <p>
             <button type="submit">Comprobar</button>
         </p>
     </form>
     <script>
-        function ensenarProvincias () {
-            
+        const datos = {
+            "-- Selecionar provincia --": ["-- Selecionar municipio --"],
+            "Almería": ["Almería", "Enix", "Roquetas de Mar", "Níjar", "Vícar"],
+            "Cádiz": ["Cádiz", "Jerez de la Frontera", "El Puerto de Santa María", "Grazalema", "Tarifa"],
+            "Córdoba": ["Córdoba", "Lucena", "Peñarroya-Pueblonuevo", "Alcaracejos", "Villaralto"],
+            "Granada": ["Granada", "Motril", "Guadix", "Villamena", "Polopos"],
+            "Huelva": ["Huelva", "Lepe", "Palos de la Frontera", "Trigueros", "Bonares"],
+            "Jaén": ["Jaén", "Linares", "Andújar", "Úbeda", "Alcalá la Real"],
+            "Málaga": ["Málaga", "Fuengirola", "Benalmádena", "Marbella", "Torremolinos"],
+            "Sevilla": ["Sevilla", "Dos Hermanas", "Alcalá de Guadaíra", "Utrera", "Lebrija"]
+        };
+
+        let provinciasSelect = document.getElementById("provincias");
+        let municipiosSelect = document.getElementById("municipios");
+
+        let provincias = Object.keys(datos);
+        let provinciasSelectHTML = "";
+        for (let i = 0; i < provincias.length; i++) {
+            let provincia = provincias[i];
+
+            if (i === 0) {
+                provinciasSelectHTML += '<option value="">' + provincia + '</option>'
+            } else {
+                provinciasSelectHTML += '<option value="' + provincia + '">' + provincia + '</option>';
+            }
+
+            if (provinciasSelect.toString().length === 9) {
+                break;
+            }
+        }
+
+        provinciasSelect.innerHTML = provinciasSelectHTML;
+
+        provinciasSelect.addEventListener('change', () => {
+            const provinciaSeleccionada = provinciasSelect.value;
+            municipiosSelect.innerHTML = '<option value="">Seleccionar municipio</option>';
+
+            if (provinciaSeleccionada) {
+                datos[provinciaSeleccionada].forEach(municipio => {
+                    const option = document.createElement('option');
+                    option.value = municipio;
+                    option.textContent = municipio;
+                    municipiosSelect.appendChild(option);
+                });
+            }
+        });
+
+        function validar() {
+            if (provinciasSelect.value === "") {
+                provinciasSelect.focus();
+                return false;
+            }
+
+            if (municipiosSelect.value === "") {
+                municipiosSelect.focus();
+                return false;
+            }
+
+            return true;
         }
     </script>
 </body>
+
 </html>
