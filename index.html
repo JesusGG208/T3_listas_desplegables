@@ -57,12 +57,13 @@
         provinciasSelect.innerHTML = provinciasSelectHTML;
 
         provinciasSelect.addEventListener('change', () => {
-            const provinciaSeleccionada = provinciasSelect.value;
-            municipiosSelect.innerHTML = '<option value="">Seleccionar municipio</option>';
+            let municipios = Object.values(datos);
+            let provinciaSeleccionada = provinciasSelect.value;
+            municipiosSelect.innerHTML = '<option value="">' + municipios[0] + '</option>';
 
             if (provinciaSeleccionada) {
                 datos[provinciaSeleccionada].forEach(municipio => {
-                    const option = document.createElement('option');
+                    let option = document.createElement('option');
                     option.value = municipio;
                     option.textContent = municipio;
                     municipiosSelect.appendChild(option);
