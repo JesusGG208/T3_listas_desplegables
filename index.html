@@ -57,18 +57,18 @@
         provinciasSelect.innerHTML = provinciasSelectHTML;
 
         provinciasSelect.addEventListener('change', () => {
-            let municipios = Object.values(datos);
             let provinciaSeleccionada = provinciasSelect.value;
-            municipiosSelect.innerHTML = '<option value="">' + municipios[0] + '</option>';
+            let municipios = Object.values(datos);
+            let municipiosSelectHTML = '<option value="">' + municipios[0] + '</option>';
 
-            if (provinciaSeleccionada) {
-                datos[provinciaSeleccionada].forEach(municipio => {
-                    let option = document.createElement('option');
-                    option.value = municipio;
-                    option.textContent = municipio;
-                    municipiosSelect.appendChild(option);
-                });
+            if (provinciaSeleccionada && datos[provinciaSeleccionada]) {
+                let municipios = datos[provinciaSeleccionada];
+                for (let i = 0; i < municipios.length; i++) {
+                    municipiosSelectHTML += '<option value="' + municipios[i] + '">' + municipios[i] + '</option>';
+                }
             }
+
+            municipiosSelect.innerHTML = municipiosSelectHTML;
         });
 
         function validar() {
